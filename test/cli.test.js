@@ -118,7 +118,10 @@ async function runTests() {
   await test('CLI shows version', async () => {
     const result = await runCLI(['--version']);
     expect(result.code, 0, 'Version should return exit code 0');
-    expectContains(result.stdout, '1.0.0', 'Should show correct version');
+    
+    // Get expected version from package.json
+    const packageJson = require('../package.json');
+    expectContains(result.stdout, packageJson.version, 'Should show correct version');
   });
 
   // Test 3: Config command
