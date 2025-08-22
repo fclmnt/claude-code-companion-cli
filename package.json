@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "node test/cli.test.js",
-    "lint": "eslint lib/ bin/ test/",
+    "lint": "eslint 'lib/**/*.js' 'bin/**/*.js' 'test/**/*.js'",
     "prepare": "npm run lint",
     "postinstall": "node scripts/postinstall.js",
     "release:check": "node scripts/release.js check",
