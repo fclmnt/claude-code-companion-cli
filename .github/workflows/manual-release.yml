@@ -1,0 +1,184 @@
+name: Manual Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., 1.2.3)'
+        required: true
+        type: string
+      release_notes:
+        description: 'Release notes (optional - will generate from commits if empty)'
+        required: false
+        type: string
+      prerelease:
+        description: 'Mark as pre-release'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      version_valid: ${{ steps.validate.outputs.valid }}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate version
+        id: validate
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          
+          # Check version format (semantic versioning)
+          if [[ $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.-]+)?$ ]]; then
+            echo "valid=true" >> $GITHUB_OUTPUT
+            echo "✅ Version format is valid: $VERSION"
+          else
+            echo "valid=false" >> $GITHUB_OUTPUT
+            echo "❌ Invalid version format: $VERSION"
+            echo "Please use semantic versioning (e.g., 1.2.3 or 1.2.3-beta.1)"
+            exit 1
+          fi
+          
+          # Check if version already exists
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          if [ "$VERSION" = "$CURRENT_VERSION" ]; then
+            echo "❌ Version $VERSION already exists in package.json"
+            exit 1
+          fi
+
+  test:
+    runs-on: ubuntu-latest
+    needs: validate
+    if: needs.validate.outputs.version_valid == 'true'
+    
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run linting
+        run: npm run lint
+
+  release:
+    runs-on: ubuntu-latest
+    needs: [validate, test]
+    if: needs.validate.outputs.version_valid == 'true'
+    environment: npm-publish
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Update version
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          npm version $VERSION --no-git-tag-version
+          git add package.json
+          git commit -m "chore: release v$VERSION"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          CUSTOM_NOTES="${{ github.event.inputs.release_notes }}"
+          
+          if [ -n "$CUSTOM_NOTES" ]; then
+            echo "Using custom release notes"
+            echo "$CUSTOM_NOTES" > release_notes.md
+          else
+            echo "Generating release notes from commits"
+            
+            # Get last tag or initial commit
+            LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)
+            
+            echo "## Claude Code Companion v$VERSION" > release_notes.md
+            echo "" >> release_notes.md
+            echo "### What's Changed" >> release_notes.md
+            echo "" >> release_notes.md
+            
+            # Generate commit list since last tag
+            git log --oneline --pretty=format:"- %s (%h)" $LAST_TAG..HEAD >> release_notes.md
+            
+            echo "" >> release_notes.md
+            echo "" >> release_notes.md
+            echo "### Installation" >> release_notes.md
+            echo "" >> release_notes.md
+            echo '```bash' >> release_notes.md
+            echo "npm install -g claude-code-companion@$VERSION" >> release_notes.md
+            echo '```' >> release_notes.md
+            
+            echo "" >> release_notes.md
+            echo "### Full Documentation" >> release_notes.md
+            echo "" >> release_notes.md
+            echo "See the [README](https://github.com/${{ github.repository }}#readme) for complete setup and usage instructions." >> release_notes.md
+          fi
+
+      - name: Create and push tag
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          git tag -a "v$VERSION" -m "Release v$VERSION"
+          git push origin main
+          git push origin "v$VERSION"
+
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ github.event.inputs.version }}
+          name: Claude Code Companion v${{ github.event.inputs.version }}
+          body_path: release_notes.md
+          prerelease: ${{ github.event.inputs.prerelease }}
+          files: |
+            claude-code-companion-*.tgz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Post-release summary
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          echo "🎉 Successfully released Claude Code Companion v$VERSION!"
+          echo ""
+          echo "📦 NPM: https://www.npmjs.com/package/claude-code-companion"
+          echo "🏷️ GitHub Release: https://github.com/${{ github.repository }}/releases/tag/v$VERSION"
+          echo ""
+          echo "Users can now install with:"
+          echo "npm install -g claude-code-companion@$VERSION"

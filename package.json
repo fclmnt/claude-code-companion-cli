@@ -10,7 +10,11 @@
     "test": "node test/cli.test.js",
     "lint": "eslint lib/ bin/ test/",
     "prepare": "npm run lint",
-    "postinstall": "node scripts/postinstall.js"
+    "postinstall": "node scripts/postinstall.js",
+    "release:check": "node scripts/release.js check",
+    "release:patch": "node scripts/release.js prepare patch",
+    "release:minor": "node scripts/release.js prepare minor",
+    "release:major": "node scripts/release.js prepare major"
   },
   "keywords": [
     "claude-code",
