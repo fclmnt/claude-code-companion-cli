@@ -4,8 +4,8 @@
 
 Get instant iPhone notifications when Claude Code performs potentially risky operations. Simple device pairing, intelligent risk assessment, and seamless approval workflow.
 
-[![npm version](https://badge.fury.io/js/claude-code-companion.svg)](https://www.npmjs.com/package/claude-code-companion)
-[![Node.js CI](https://github.com/your-org/claude-code-companion/workflows/Node.js%20CI/badge.svg)](https://github.com/your-org/claude-code-companion/actions)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Node.js](https://img.shields.io/badge/node.js-%3E%3D14.0.0-brightgreen)
 
 ## Features
 
@@ -33,10 +33,8 @@ cccompanion setup
 cccompanion pair 123456
 ```
 
-### 4. Test the system
-```bash
-cccompanion test "Delete important file"
-```
+### 4. Ready to use!
+Your Claude Code operations will now prompt for iPhone approval automatically.
 
 ## Commands
 
@@ -44,7 +42,6 @@ cccompanion test "Delete important file"
 cccompanion setup                    # Configure Claude Code integration
 cccompanion pair <code>              # Pair with iPhone using 6-digit code
 cccompanion status                   # Check connection and pairing status
-cccompanion test [message]           # Send test notification
 cccompanion config                   # Show current configuration
 ```
 
@@ -89,13 +86,11 @@ cccompanion setup
 cccompanion pair 123456
 cccompanion status --verbose
 
-# Testing different risk levels  
-cccompanion test "rm important.json"           # High risk
-cccompanion test "chmod +x script.sh"          # Medium risk
-cccompanion test --risk low "ls files"         # Low risk (auto-approved)
-
 # Check configuration
 cccompanion config
+
+# Real usage - automatic notifications when Claude Code runs risky operations
+# No manual testing needed - works automatically with Claude Code!
 ```
 
 ## Architecture
@@ -119,7 +114,7 @@ git clone https://github.com/your-org/claude-code-companion.git
 cd claude-code-companion
 npm install
 
-# Test CLI
+# Run tests
 npm test
 
 # Lint code
@@ -142,10 +137,10 @@ cccompanion setup --force
 
 ### Connection Issues
 ```bash
-# Test backend connectivity
+# Check backend connectivity and device pairing
 cccompanion status
 
-# Check device pairing
+# View detailed configuration
 cccompanion config
 
 # Reset configuration
@@ -155,9 +150,9 @@ cccompanion setup
 
 ## Support
 
-- 📖 [Documentation](https://github.com/your-org/claude-code-companion#readme)
-- 🐛 [Report Issues](https://github.com/your-org/claude-code-companion/issues)
-- 💬 [Discussions](https://github.com/your-org/claude-code-companion/discussions)
+- 📖 Documentation - See this README for complete usage guide
+- 🐛 Issues - Use GitHub Issues for bug reports and feature requests
+- 💬 Questions - Check troubleshooting section or create an issue
 
 ## License
 
