@@ -156,7 +156,6 @@ config/local.js
 # Build artifacts
 build/
 dist/
-lib/
 
 # Test artifacts
 test-results/
