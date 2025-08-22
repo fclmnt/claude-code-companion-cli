@@ -1,0 +1,63 @@
+{
+  "name": "claude-code-notifications",
+  "version": "1.0.0",
+  "description": "Get iPhone push notifications for Claude Code risky operations - device pairing, risk assessment, and approval workflow",
+  "main": "lib/index.js",
+  "bin": {
+    "ccnotify": "./bin/ccnotify.js"
+  },
+  "scripts": {
+    "test": "node test/cli.test.js",
+    "lint": "eslint lib/ bin/ test/",
+    "prepare": "npm run lint",
+    "postinstall": "node scripts/postinstall.js"
+  },
+  "keywords": [
+    "claude-code",
+    "claude",
+    "notifications",
+    "push-notifications",
+    "ios",
+    "iphone",
+    "cli",
+    "hooks",
+    "safety",
+    "approval",
+    "risk-assessment",
+    "anthropic"
+  ],
+  "author": "Claude Code Community",
+  "license": "MIT",
+  "homepage": "https://github.com/claude-code-notifications/cli#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/claude-code-notifications/cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/claude-code-notifications/cli/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "commander": "^11.1.0",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.6",
+    "ora": "^5.4.1",
+    "node-fetch": "^2.7.0",
+    "fs-extra": "^11.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "scripts/",
+    "templates/",
+    "README.md",
+    "LICENSE"
+  ],
+  "preferGlobal": true
+}
