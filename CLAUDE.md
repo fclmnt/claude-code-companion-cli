@@ -178,7 +178,7 @@ Read operations, status checks, basic queries
 
 ### **Adding New Commands**
 1. Create command file in `lib/commands/`
-2. Import and register in `bin/ccnotify.js`
+2. Import and register in `bin/cccompanion.js`
 3. Add help text and examples
 4. Test with various input scenarios
 
