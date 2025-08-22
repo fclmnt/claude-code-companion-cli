@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Post-install script for claude-code-notifications
+ * Post-install script for claude-code-companion
  * 
  * Automatically configures Claude Code hooks after package installation
  */
@@ -10,7 +10,7 @@ const chalk = require('chalk');
 const path = require('path');
 
 async function postInstall() {
-  console.log(chalk.blue('\n🚀 Claude Code Notifications installed!\n'));
+  console.log(chalk.blue('\n🚀 Claude Code Companion installed!\n'));
   
   // Check if this is a global installation
   const isGlobal = __dirname.includes('lib/node_modules') || 
@@ -19,16 +19,16 @@ async function postInstall() {
   
   if (!isGlobal) {
     console.log(chalk.yellow('📦 Local installation detected.'));
-    console.log(chalk.gray('   For global CLI access, install with: npm install -g claude-code-notifications\n'));
+    console.log(chalk.gray('   For global CLI access, install with: npm install -g claude-code-companion\n'));
     return;
   }
   
   // Check if user wants to skip auto-setup
-  if (process.env.CCNOTIFY_SKIP_SETUP === 'true') {
-    console.log(chalk.gray('⏭️  Auto-setup skipped (CCNOTIFY_SKIP_SETUP=true)\n'));
+  if (process.env.CCCOMPANION_SKIP_SETUP === 'true') {
+    console.log(chalk.gray('⏭️  Auto-setup skipped (CCCOMPANION_SKIP_SETUP=true)\n'));
     console.log(chalk.bold('Manual setup:'));
-    console.log(`   ${chalk.cyan('ccnotify setup')}`);
-    console.log(`   ${chalk.cyan('ccnotify pair <6-digit-code>')}\n`);
+    console.log(`   ${chalk.cyan('cccompanion setup')}`);
+    console.log(`   ${chalk.cyan('cccompanion pair <6-digit-code>')}\n`);
     return;
   }
   
@@ -52,8 +52,8 @@ async function postInstall() {
     console.log(chalk.bold('Next steps:'));
     console.log('1. Start your backend server');
     console.log(`2. Get pairing code from iPhone app`);
-    console.log(`3. Run: ${chalk.cyan('ccnotify pair <6-digit-code>')}`);
-    console.log(`4. Test: ${chalk.cyan('ccnotify test "Test notification"')}\n`);
+    console.log(`3. Run: ${chalk.cyan('cccompanion pair <6-digit-code>')}`);
+    console.log(`4. Test: ${chalk.cyan('cccompanion test "Test notification"')}\n`);
     
   } catch (error) {
     // Don't fail the installation if setup fails
@@ -61,8 +61,8 @@ async function postInstall() {
     console.log(chalk.gray(`   ${error.message}\n`));
     
     console.log(chalk.bold('Manual setup:'));
-    console.log(`   ${chalk.cyan('ccnotify setup')}`);
-    console.log(`   ${chalk.cyan('ccnotify pair <6-digit-code>')}\n`);
+    console.log(`   ${chalk.cyan('cccompanion setup')}`);
+    console.log(`   ${chalk.cyan('cccompanion pair <6-digit-code>')}\n`);
     
     console.log(chalk.gray('💡 Common issues:'));
     console.log(chalk.gray('   - Claude Code CLI not installed'));

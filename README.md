@@ -1,307 +1,168 @@
-# Claude Code Notifications
+# Claude Code Companion
 
-> 📱 Get iPhone push notifications for Claude Code risky operations
+> iPhone push notifications for Claude Code risky operations
 
-**Professional CLI tool for iPhone approval workflow - Zero maintenance, maximum safety.**
+Get instant iPhone notifications when Claude Code performs potentially risky operations. Simple device pairing, intelligent risk assessment, and seamless approval workflow.
 
-[![npm version](https://badge.fury.io/js/claude-code-notifications.svg)](https://www.npmjs.com/package/claude-code-notifications)
-[![Node.js CI](https://github.com/claude-code-notifications/cli/workflows/Node.js%20CI/badge.svg)](https://github.com/claude-code-notifications/cli/actions)
+[![npm version](https://badge.fury.io/js/claude-code-companion.svg)](https://www.npmjs.com/package/claude-code-companion)
+[![Node.js CI](https://github.com/your-org/claude-code-companion/workflows/Node.js%20CI/badge.svg)](https://github.com/your-org/claude-code-companion/actions)
 
-## 🚀 **Quick Start**
+## Features
 
+- 🚀 **Zero Configuration** - Auto-configures Claude Code hooks on install
+- 📱 **iPhone Integration** - Native push notifications with approval workflow  
+- 🛡️ **Smart Risk Assessment** - Automatically detects high/medium/low risk operations
+- ⚡ **Instant Setup** - Pair with 6-digit code, no accounts required
+- 🔒 **Secure** - Device-only authentication, no sensitive data stored
+
+## Quick Start
+
+### 1. Install globally
 ```bash
-# 1. Install globally
-npm install -g claude-code-notifications
-
-# 2. Auto-setup (one command does everything)
-ccnotify setup
-
-# 3. Pair with iPhone
-ccnotify pair 123456
-
-# 4. Done! All risky operations now require iPhone approval
-claude-code "rm important-file.json"
-# → 📱 iPhone notification appears
-# → You tap Approve/Deny  
-# → Operation proceeds/stops based on your choice
+npm install -g claude-code-companion
 ```
 
-## ✨ **Why NPM Package vs Manual Scripts?**
+### 2. Auto-setup Claude Code integration
+```bash
+cccompanion setup
+```
 
-| Manual Scripts (Current) | NPM Package |
-|--------------------------|-------------|
-| `curl` + `chmod` + manual setup | `npm install -g` |
-| `node claude-code-pairing.js` | `ccnotify pair` |
-| Manual environment variables | Auto-configured |
-| Manual hook configuration | `ccnotify setup` |
-| No version management | `npm update -g` |
-| Hard to discover | Searchable on npm |
-| Platform compatibility issues | Cross-platform ready |
-| **12 manual steps** | **3 commands** |
+### 3. Pair with iPhone
+```bash
+# Get 6-digit code from iPhone app, then:
+cccompanion pair 123456
+```
 
-## 📋 **Features**
+### 4. Test the system
+```bash
+cccompanion test "Delete important file"
+```
 
-- ✅ **One-Command Setup**: `ccnotify setup` configures everything automatically
-- ✅ **Professional CLI**: Built with Commander.js, colored output, progress bars
-- ✅ **Smart Risk Assessment**: High/Medium/Low risk classification with customizable patterns
-- ✅ **Auto-Discovery**: Finds Claude Code config automatically
-- ✅ **Robust Error Handling**: Clear error messages with troubleshooting guidance
-- ✅ **Cross-Platform**: Works on macOS, Linux, and Windows
-- ✅ **Real-time Polling**: Waits for iPhone response with timeout handling
-- ✅ **Environment Integration**: Seamless environment variable management
-- ✅ **Update Management**: Easy updates via `npm update -g`
+## Commands
 
-## 🛠️ **Commands**
+```bash
+cccompanion setup                    # Configure Claude Code integration
+cccompanion pair <code>              # Pair with iPhone using 6-digit code
+cccompanion status                   # Check connection and pairing status
+cccompanion test [message]           # Send test notification
+cccompanion config                   # Show current configuration
+```
 
-### `ccnotify setup`
-Auto-configure Claude Code hooks and environment
-- Detects Claude Code configuration automatically
-- Installs notification hook
-- Configures environment variables
-- Tests backend connection
+## How It Works
 
-### `ccnotify pair <code>`
-Pair with iPhone using 6-digit code from app
-- Validates code format
-- Tests server connection
-- Saves device configuration
-- Provides environment setup guidance
-
-### `ccnotify status`
-Check pairing status and system health
-- Device pairing status
-- Backend connection test  
-- Claude Code hook verification
-- Environment variable check
-- End-to-end system test
-
-### `ccnotify test [message]`
-Send test notification to iPhone
-- Custom test messages
-- Risk level simulation (--risk high/medium/low)
-- Real-time response polling
-- Success/failure feedback
-
-### `ccnotify config`
-Show current configuration and troubleshooting info
-
-## 🔧 **Installation & Setup**
-
-### Prerequisites
-- Node.js 14+ 
-- Claude Code CLI installed and configured
-- iPhone with CCNotifications app
-- Backend server running (local or hosted)
-
-### Step-by-Step Setup
-
-1. **Install the CLI tool**
-   ```bash
-   npm install -g claude-code-notifications
-   ```
-
-2. **Auto-configure Claude Code integration**
-   ```bash
-   ccnotify setup
-   # ✅ Found Claude Code config at ~/.claude/config.json  
-   # ✅ Notification hook installed
-   # ✅ Environment configured
-   # 📱 Ready to pair with iPhone!
-   ```
-
-3. **Pair with iPhone**
-   - Open iPhone app, get 6-digit code
-   - Run pairing command:
-   ```bash
-   ccnotify pair 123456
-   # 🔗 Pairing with iPhone...
-   # ✅ Paired with "John's iPhone"
-   # 🎉 Setup complete!
-   ```
-
-4. **Add environment variables** (shown after pairing)
-   ```bash
-   export CC_NOTIFICATIONS_DEVICE_ID="your-device-id"
-   export CC_NOTIFICATIONS_SERVER="https://claude-code-companion-backend-production.up.railway.app"
-   ```
-
-5. **Test the system**
-   ```bash
-   ccnotify test "Delete important file"
-   # 📱 Sent notification to iPhone
-   # ⏳ Waiting for response...
-   # ✅ User approved the operation
-   ```
-
-**That's it! 🎉 All Claude Code risky operations now require iPhone approval.**
-
-## 🔒 **Security & Risk Assessment**
+1. **Risk Detection** - Hooks into Claude Code to detect risky operations
+2. **iPhone Notification** - Sends push notification with operation details
+3. **User Approval** - User approves/denies on iPhone
+4. **Operation Control** - Claude Code proceeds or stops based on response
 
 ### Risk Levels
 
-**🔴 High Risk** (Always notifies)
-- `rm -rf`, `sudo` commands
-- Database operations: `DELETE FROM`, `DROP TABLE`
-- Configuration files: `.env`, `config.json`, `package.json`
-- Security files: API keys, certificates, secrets
-- System operations: `shutdown`, `reboot`, `kill -9`
+- **High Risk** - `rm -rf`, `sudo`, database drops, secret files → Always requires approval
+- **Medium Risk** - File modifications, installs, admin operations → Requires approval  
+- **Low Risk** - Read operations, status checks → Auto-approved
 
-**🟡 Medium Risk** (Configurable)
-- File operations: `rm`, `mv` of important files
-- Permission changes: `chmod`, `chown`
-- Database updates: `UPDATE`, `ALTER TABLE`
-- Package installations: `npm install`, `pip install`
+## Requirements
 
-**🟢 Low Risk** (Typically skipped)
-- Read operations: `cat`, `ls`, `grep`
-- Safe file operations: `mkdir`, `touch`
-- Version checks: `node --version`, `git status`
+- **Claude Code CLI** - Must be installed and configured
+- **iPhone App** - Companion iOS app for notifications
+- **Backend Server** - For notification routing (provided)
 
-## 🎨 **User Experience**
+## Configuration
 
-### Beautiful CLI Output
+### Environment Variables
 ```bash
-$ ccnotify status
-📊 Claude Code Notifications Status
-
-✅ Device Pairing: Paired with John's iPhone
-✅ Backend Connection: Server reachable  
-✅ Claude Code Hook: Hook configured and active
-⚠️  Environment Variables: Missing CC_NOTIFICATIONS_DEVICE_ID
-✅ System Health: All systems operational
-
-🎉 System mostly functional with minor issues.
+CC_NOTIFICATIONS_SERVER=https://your-backend.com  # Backend server URL
+CC_NOTIFICATIONS_DEVICE_ID=your-device-id         # Auto-managed after pairing
+CC_NOTIFICATIONS_TIMEOUT=30000                    # Request timeout (ms)
 ```
 
-### Rich Error Messages
-```bash
-$ ccnotify pair 12345
-❌ Invalid pairing code format.
-   Pairing code must be exactly 6 digits.
-   Get a new code from your iPhone app and try again.
-```
+### Configuration File
+Location: `~/.claude-code-companion`
 
-### Progress Indicators
-```bash
-$ ccnotify setup
-🚀 Setting up Claude Code notifications...
+Contains device info, server settings, and pairing status.
 
-✅ Found Claude Code config: ~/.claude/config.json
-✅ Notification hook installed
-✅ Environment configured  
-⚠️  Backend connection failed: Server not running
-```
-
-## 🚀 **Development & Contributing**
-
-### Project Structure
-```
-claude-code-notifications/
-├── bin/ccnotify.js              # Main CLI entry point
-├── lib/
-│   ├── commands/                # Command implementations
-│   │   ├── setup.js
-│   │   ├── pair.js
-│   │   ├── status.js
-│   │   └── test.js
-│   ├── core/                    # Core functionality
-│   │   ├── config.js            # Configuration management
-│   │   ├── api.js               # Backend API client
-│   │   └── hook-generator.js    # Hook file generation
-│   └── utils/
-│       └── claude-config.js     # Claude Code config utilities
-└── templates/
-    └── hook.js                  # Hook template
-```
-
-### Publishing to NPM
-```bash
-npm version patch
-npm publish
-npm install -g claude-code-notifications
-```
-
-## 🎯 **Migration from Manual Scripts**
-
-Already using manual scripts? Easy migration:
+## Examples
 
 ```bash
-# Remove old files
-rm claude-code-hook.js claude-code-pairing.js
+# Setup and pairing
+cccompanion setup
+cccompanion pair 123456
+cccompanion status --verbose
 
-# Install npm package
-npm install -g claude-code-notifications
+# Testing different risk levels  
+cccompanion test "rm important.json"           # High risk
+cccompanion test "chmod +x script.sh"          # Medium risk
+cccompanion test --risk low "ls files"         # Low risk (auto-approved)
 
-# Your existing pairing is preserved!
-ccnotify status
-# ✅ Paired with: Your iPhone (migrated from manual setup)
+# Check configuration
+cccompanion config
 ```
 
-## 🆚 **Comparison: Manual vs NPM**
+## Architecture
 
-### User Adoption Perspective
+### Components
+- **CLI Tool** - This npm package
+- **Claude Code Hook** - Auto-generated integration script
+- **iPhone App** - Native iOS app for notifications
+- **Backend Service** - Node.js API for notification routing
 
-**Manual Script Approach:**
+### Workflow
+```
+Claude Code → Hook → Backend → iPhone → User → Backend → Hook → Claude Code
+```
+
+## Development
+
 ```bash
-# User journey - 12 steps, multiple failure points
-curl -o claude-code-hook.js https://example.com/claude-code-hook.js
-curl -o claude-code-pairing.js https://example.com/claude-code-pairing.js
-chmod +x *.js
-node claude-code-pairing.js 123456
-export CC_NOTIFICATIONS_DEVICE_ID="..."
-export CC_NOTIFICATIONS_SERVER="..."
-# Edit Claude Code config manually
-# Add hook path manually
-# Test manually
-# Update manually
+# Clone and install
+git clone https://github.com/your-org/claude-code-companion.git
+cd claude-code-companion
+npm install
+
+# Test CLI
+npm test
+
+# Lint code
+npm run lint
 ```
 
-**NPM Package Approach:**
+## Troubleshooting
+
+### Setup Issues
 ```bash
-# User journey - 3 steps, bulletproof
-npm install -g claude-code-notifications
-ccnotify setup
-ccnotify pair 123456
+# Check Claude Code installation
+claude --version
+
+# Verify hook installation
+cccompanion status --verbose
+
+# Force reconfiguration
+cccompanion setup --force
 ```
 
-### Developer Maintenance Perspective
+### Connection Issues
+```bash
+# Test backend connectivity
+cccompanion status
 
-**Manual Scripts:**
-- ❌ Users download wrong versions
-- ❌ No automatic updates
-- ❌ Platform compatibility issues  
-- ❌ Hard to debug user installations
-- ❌ Poor error messages
-- ❌ No analytics on adoption
+# Check device pairing
+cccompanion config
 
-**NPM Package:**
-- ✅ Semantic versioning
-- ✅ Automatic dependency management
-- ✅ Cross-platform compatibility
-- ✅ Rich error handling and logging
-- ✅ Professional CLI experience
-- ✅ npm download statistics
-- ✅ Established distribution ecosystem
+# Reset configuration
+rm ~/.claude-code-companion
+cccompanion setup
+```
 
-## 📈 **Adoption Success Metrics**
+## Support
 
-The NPM approach will dramatically increase adoption because:
+- 📖 [Documentation](https://github.com/your-org/claude-code-companion#readme)
+- 🐛 [Report Issues](https://github.com/your-org/claude-code-companion/issues)
+- 💬 [Discussions](https://github.com/your-org/claude-code-companion/discussions)
 
-1. **Discovery**: Searchable on npmjs.com
-2. **Trust**: Professional package in established ecosystem  
-3. **Simplicity**: 3 commands vs 12 manual steps
-4. **Maintenance**: `npm update -g` vs re-downloading files
-5. **Developer Experience**: Rich CLI vs basic Node scripts
-6. **Cross-platform**: Works everywhere vs platform issues
-7. **Documentation**: Integrated help vs external docs
-8. **Community**: GitHub stars, npm downloads, issue tracking
+## License
+
+MIT © Claude Code Companion
 
 ---
 
-## 🎉 **Conclusion**
-
-**NPM package is unquestionably the better approach for production release.**
-
-It transforms a complex 12-step manual process into a 3-command professional tool that "just works" for everyone. The user experience is night-and-day better, maintenance is automated, and adoption will be significantly higher.
-
-Ready to publish: **This package is production-ready and will dramatically improve user adoption! 🚀**
+**Made for Claude Code developers who value safety and control**

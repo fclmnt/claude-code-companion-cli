@@ -1,10 +1,10 @@
 {
-  "name": "claude-code-notifications",
+  "name": "claude-code-companion",
   "version": "1.0.0",
-  "description": "Get iPhone push notifications for Claude Code risky operations - device pairing, risk assessment, and approval workflow",
+  "description": "iPhone push notifications for Claude Code risky operations - seamless approval workflow with zero setup",
   "main": "lib/index.js",
   "bin": {
-    "ccnotify": "./bin/ccnotify.js"
+    "cccompanion": "./bin/cccompanion.js"
   },
   "scripts": {
     "test": "node test/cli.test.js",
@@ -24,17 +24,17 @@
     "safety",
     "approval",
     "risk-assessment",
-    "anthropic"
+    "companion"
   ],
-  "author": "Claude Code Community",
+  "author": "Claude Code Companion",
   "license": "MIT",
-  "homepage": "https://github.com/claude-code-notifications/cli#readme",
+  "homepage": "https://github.com/your-org/claude-code-companion#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/claude-code-notifications/cli.git"
+    "url": "https://github.com/your-org/claude-code-companion.git"
   },
   "bugs": {
-    "url": "https://github.com/claude-code-notifications/cli/issues"
+    "url": "https://github.com/your-org/claude-code-companion/issues"
   },
   "engines": {
     "node": ">=14.0.0"

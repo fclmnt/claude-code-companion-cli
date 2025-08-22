@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Claude Code Notifications CLI
+ * Claude Code Companion CLI
  * 
- * Professional CLI tool for iPhone push notifications in Claude Code
+ * iPhone push notifications for Claude Code risky operations
  */
 
 const { Command } = require('commander');
@@ -20,8 +20,8 @@ const program = new Command();
 
 // Program configuration
 program
-  .name('ccnotify')
-  .description('🚀 Claude Code push notifications - Get iPhone approval for risky operations')
+  .name('cccompanion')
+  .description('🚀 iPhone push notifications for Claude Code risky operations')
   .version(packageInfo.version)
   .configureOutput({
     writeOut: (str) => process.stdout.write(str),
@@ -70,16 +70,16 @@ program
 program.addHelpText('after', `
 
 ${chalk.bold('Examples:')}
-  ${chalk.cyan('ccnotify setup')}                    Auto-configure Claude Code integration
-  ${chalk.cyan('ccnotify pair 123456')}              Pair with iPhone using code from app  
-  ${chalk.cyan('ccnotify status')}                   Check connection status
-  ${chalk.cyan('ccnotify test "rm important.json"')} Send test notification
+  ${chalk.cyan('cccompanion setup')}                    Auto-configure Claude Code integration
+  ${chalk.cyan('cccompanion pair 123456')}              Pair with iPhone using code from app  
+  ${chalk.cyan('cccompanion status')}                   Check connection status
+  ${chalk.cyan('cccompanion test "rm important.json"')} Send test notification
   
 ${chalk.bold('Getting Started:')}
   1. Install the iPhone app and allow notifications
-  2. Run ${chalk.cyan('ccnotify setup')} to configure Claude Code integration
+  2. Run ${chalk.cyan('cccompanion setup')} to configure Claude Code integration
   3. Get 6-digit code from iPhone app
-  4. Run ${chalk.cyan('ccnotify pair <code>')} to connect
+  4. Run ${chalk.cyan('cccompanion pair <code>')} to connect
   5. Enjoy automatic notifications for risky operations!
 
 ${chalk.bold('Environment Variables:')}
@@ -88,8 +88,8 @@ ${chalk.bold('Environment Variables:')}
   CC_NOTIFICATIONS_TIMEOUT         Request timeout (default: 30000ms)
 
 ${chalk.bold('Learn More:')}
-  📖 Full documentation: https://github.com/claude-code-notifications/cli
-  🐛 Report issues: https://github.com/claude-code-notifications/cli/issues
+  📖 Full documentation: https://github.com/your-org/claude-code-companion
+  🐛 Report issues: https://github.com/your-org/claude-code-companion/issues
 `);
 
 // Global error handler

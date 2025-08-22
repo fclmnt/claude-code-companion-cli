@@ -1,18 +1,18 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with the `claude-code-notifications` npm package.
+This file provides guidance to Claude Code (claude.ai/code) when working with the `claude-code-companion` npm package.
 
 ## Project Overview
 
-**claude-code-notifications** is a professional CLI tool that enables iPhone push notifications for Claude Code risky operations. This package provides seamless integration with Claude Code's hook system to automatically request user approval for potentially dangerous operations.
+**claude-code-companion** is a professional CLI tool that enables iPhone push notifications for Claude Code risky operations. This package provides seamless integration with Claude Code's hook system to automatically request user approval for potentially dangerous operations.
 
 ## Package Structure
 
 ### **CLI Tool (`bin/`)**
-- `bin/ccnotify.js` - Main CLI entry point with Commander.js interface
+- `bin/cccompanion.js` - Main CLI entry point with Commander.js interface
 
 ### **Core Libraries (`lib/`)**
-- `lib/core/config.js` - Configuration management (saves to `~/.claude-code-notifications`)
+- `lib/core/config.js` - Configuration management (saves to `~/.claude-code-companion`)
 - `lib/core/api.js` - HTTP client for backend communication with retry logic
 - `lib/core/hook-generator.js` - Generates Claude Code hook scripts dynamically
 
@@ -56,40 +56,40 @@ This file provides guidance to Claude Code (claude.ai/code) when working with th
 ### **Installation & Setup**
 ```bash
 # Global installation (recommended)
-npm install -g claude-code-notifications
+npm install -g claude-code-companion
 
 # Local installation
-npm install claude-code-notifications
+npm install claude-code-companion
 
 # Manual setup (if auto-setup fails)
-ccnotify setup
+cccompanion setup
 
 # Skip auto-setup during install
-CCNOTIFY_SKIP_SETUP=true npm install -g claude-code-notifications
+CCCOMPANION_SKIP_SETUP=true npm install -g claude-code-companion
 ```
 
 ### **Device Management**
 ```bash
 # Pair with iPhone using app-generated code
-ccnotify pair 123456
+cccompanion pair 123456
 
 # Check pairing status and configuration
-ccnotify status --verbose
+cccompanion status --verbose
 
 # Show current configuration
-ccnotify config
+cccompanion config
 ```
 
 ### **Testing & Debugging**
 ```bash
 # Send test notification
-ccnotify test "Delete important file"
+cccompanion test "Delete important file"
 
 # Test with specific risk level
-ccnotify test --risk high "sudo rm important.json"
+cccompanion test --risk high "sudo rm important.json"
 
 # Development mode (enables debug output)
-NODE_ENV=development ccnotify test "debug operation"
+NODE_ENV=development cccompanion test "debug operation"
 ```
 
 ## Configuration
@@ -99,15 +99,15 @@ NODE_ENV=development ccnotify test "debug operation"
 - `CC_NOTIFICATIONS_DEVICE_ID` - Paired device ID (auto-managed)
 - `CC_NOTIFICATIONS_TIMEOUT` - Request timeout in ms (default: 30000)
 - `CC_NOTIFICATIONS_POLL_INTERVAL` - Polling interval in ms (default: 2000)
-- `CCNOTIFY_SKIP_SETUP` - Skip post-install auto-setup (default: false)
+- `CCCOMPANION_SKIP_SETUP` - Skip post-install auto-setup (default: false)
 
 ### **Configuration File**
-- Location: `~/.claude-code-notifications`
+- Location: `~/.claude-code-companion`
 - Format: JSON with device info, server URL, timeouts
 - Auto-managed by CLI commands
 
 ### **Hook Integration**
-- Hook file: `~/.claude/hooks/claude-code-notifications-hook.js`
+- Hook file: `~/.claude/hooks/claude-code-companion-hook.js`
 - Integration: Added to `~/.claude/settings.json` automatically
 - Trigger: `user-prompt-submit` hook for risky operations
 
@@ -126,10 +126,10 @@ NODE_ENV=development ccnotify test "debug operation"
 https://claude-code-companion-backend-production.up.railway.app
 
 # Custom backend
-ccnotify setup --server https://your-backend.com
+cccompanion setup --server https://your-backend.com
 
 # Local development
-ccnotify setup --server http://localhost:3000
+cccompanion setup --server http://localhost:3000
 ```
 
 ## Risk Assessment Engine
@@ -209,19 +209,19 @@ Read operations, status checks, basic queries
 ### **Manual Testing Checklist**
 ```bash
 # Installation flow
-npm install -g claude-code-notifications
+npm install -g claude-code-companion
 
 # Configuration
-ccnotify setup
-ccnotify status
+cccompanion setup
+cccompanion status
 
 # Pairing flow
-ccnotify pair 123456
-ccnotify status --verbose
+cccompanion pair 123456
+cccompanion status --verbose
 
 # Notification testing
-ccnotify test "rm important.json"
-ccnotify test --risk low "ls files"
+cccompanion test "rm important.json"
+cccompanion test --risk low "ls files"
 ```
 
 ## Deployment & Distribution
@@ -276,5 +276,5 @@ ccnotify test --risk low "ls files"
 **Package Status**: ✅ Production Ready  
 **Version**: 1.0.0  
 **License**: MIT  
-**Maintainer**: Claude Code Community  
-**Repository**: https://github.com/claude-code-notifications/cli
+**Maintainer**: Claude Code Companion  
+**Repository**: https://github.com/your-org/claude-code-companion
