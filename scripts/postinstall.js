@@ -53,7 +53,7 @@ async function postInstall() {
     console.log('1. Start your backend server');
     console.log(`2. Get pairing code from iPhone app`);
     console.log(`3. Run: ${chalk.cyan('cccompanion pair <6-digit-code>')}`);
-    console.log(`4. Test: ${chalk.cyan('cccompanion test "Test notification"')}\n`);
+    console.log(`4. Enjoy automatic notifications for risky operations!\n`);
     
   } catch (error) {
     // Don't fail the installation if setup fails
@@ -67,7 +67,11 @@ async function postInstall() {
     console.log(chalk.gray('💡 Common issues:'));
     console.log(chalk.gray('   - Claude Code CLI not installed'));
     console.log(chalk.gray('   - No ~/.claude/settings.json file exists'));
-    console.log(chalk.gray('   - Permission issues with configuration directory\n'));
+    console.log(chalk.gray('   - Permission issues with configuration directory'));
+    console.log(chalk.gray('   - Existing hook configuration conflicts\n'));
+    
+    // Exit successfully even if setup fails - don't break npm install
+    console.log(chalk.green('✅ Package installed successfully. Run manual setup when ready.'));
   }
 }
 
