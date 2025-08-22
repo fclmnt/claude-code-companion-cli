@@ -14,7 +14,6 @@ const packageInfo = require('../package.json');
 const setupCommand = require('../lib/commands/setup');
 const pairCommand = require('../lib/commands/pair'); 
 const statusCommand = require('../lib/commands/status');
-const testCommand = require('../lib/commands/test');
 
 const program = new Command();
 
@@ -50,12 +49,7 @@ program
   .option('-v, --verbose', 'Show detailed status information')
   .action(statusCommand);
 
-// Test command - Send test notification
-program
-  .command('test [message]')
-  .description('🧪 Send test notification to iPhone')
-  .option('-r, --risk <level>', 'Risk level: low, medium, high', 'medium')
-  .action(testCommand);
+// Test command removed - automatic operation with Claude Code
 
 // Config command - Manage configuration
 program
@@ -73,7 +67,7 @@ ${chalk.bold('Examples:')}
   ${chalk.cyan('cccompanion setup')}                    Auto-configure Claude Code integration
   ${chalk.cyan('cccompanion pair 123456')}              Pair with iPhone using code from app  
   ${chalk.cyan('cccompanion status')}                   Check connection status
-  ${chalk.cyan('cccompanion test "rm important.json"')} Send test notification
+  ${chalk.cyan('cccompanion config')}                   Show current configuration
   
 ${chalk.bold('Getting Started:')}
   1. Install the iPhone app and allow notifications
@@ -111,5 +105,6 @@ program.parse();
 
 // Show help if no arguments provided
 if (process.argv.length <= 2) {
-  program.help();
+  program.outputHelp();
+  process.exit(0);
 }
