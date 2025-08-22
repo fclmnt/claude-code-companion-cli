@@ -1,6 +1,6 @@
 {
   "name": "claude-code-companion",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "iPhone push notifications for Claude Code risky operations - seamless approval workflow with zero setup",
   "main": "lib/index.js",
   "bin": {
