@@ -32,6 +32,7 @@ program
   .command('setup')
   .description('🔧 Auto-configure Claude Code hooks and environment')  
   .option('-s, --server <url>', 'Backend server URL', 'https://claude-code-companion-backend-production.up.railway.app')
+  .option('--sandbox', 'Use sandbox/develop environment')
   .option('--force', 'Force reconfiguration even if already set up')
   .action(setupCommand);
 
@@ -39,8 +40,17 @@ program
 program
   .command('pair <code>')
   .description('📱 Pair with iPhone using 6-digit code from app')
-  .option('-s, --server <url>', 'Backend server URL', 'https://claude-code-companion-backend-production.up.railway.app')
-  .action(pairCommand);
+  .option('-s, --server <url>', 'Backend server URL (auto-selected based on environment)')
+  .option('--sandbox', 'Use sandbox/develop environment')
+  .action((code, options) => {
+    // Auto-select server URL based on sandbox flag if not explicitly set
+    if (!options.server || options.server === 'https://claude-code-companion-backend-production.up.railway.app') {
+      options.server = options.sandbox 
+        ? 'https://claude-code-companion-backend-develop.up.railway.app'
+        : 'https://claude-code-companion-backend-production.up.railway.app';
+    }
+    pairCommand(code, options);
+  });
 
 // Status command - Check connection and configuration
 program  
@@ -65,7 +75,9 @@ program.addHelpText('after', `
 
 ${chalk.bold('Examples:')}
   ${chalk.cyan('cccompanion setup')}                    Auto-configure Claude Code integration
+  ${chalk.cyan('cccompanion setup --sandbox')}          Use sandbox/develop environment
   ${chalk.cyan('cccompanion pair 123456')}              Pair with iPhone using code from app  
+  ${chalk.cyan('cccompanion pair 123456 --sandbox')}    Pair with sandbox environment
   ${chalk.cyan('cccompanion status')}                   Check connection status
   ${chalk.cyan('cccompanion config')}                   Show current configuration
   
