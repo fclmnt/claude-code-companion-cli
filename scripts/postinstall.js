@@ -33,27 +33,66 @@ async function postInstall() {
   }
   
   try {
-    // Import setup command
+    // Import required modules
     const setupCommand = require('../lib/commands/setup');
+    const hookGenerator = require('../lib/core/hook-generator');
     
-    console.log(chalk.blue('🔧 Auto-configuring Claude Code integration...\n'));
+    // Check if hook file exists and needs updating
+    const hookExists = hookGenerator.hookExists();
+    const needsUpdate = await hookGenerator.needsUpdate();
     
-    // Check if we're in an interactive terminal
-    const isInteractive = process.stdin.isTTY && process.stdout.isTTY;
+    if (hookExists && needsUpdate) {
+      console.log(chalk.blue('🔄 Updating existing Claude Code hook...\n'));
+      
+      // Update the hook file with latest version
+      await hookGenerator.updateHook();
+      
+      console.log(chalk.green('✅ Hook file updated successfully!\n'));
+      
+      console.log(chalk.bold('Updated features:'));
+      console.log('• Latest risk assessment patterns');
+      console.log('• Enhanced multi-option support');  
+      console.log('• Improved error handling');
+      console.log('• Performance optimizations\n');
+      
+    } else if (hookExists && !needsUpdate) {
+      console.log(chalk.green('✅ Hook file is already up to date!\n'));
+      
+    } else {
+      console.log(chalk.blue('🔧 Auto-configuring Claude Code integration...\n'));
+      
+      // Check if we're in an interactive terminal
+      const isInteractive = process.stdin.isTTY && process.stdout.isTTY;
+      
+      // Run setup with default options
+      await setupCommand({
+        server: process.env.CC_NOTIFICATIONS_SERVER || 'https://claude-code-companion-backend-production.up.railway.app',
+        force: !isInteractive // Force setup in non-interactive environments
+      });
+      
+      console.log(chalk.green('\n✨ Auto-setup complete!\n'));
+    }
     
-    // Run setup with default options
-    await setupCommand({
-      server: process.env.CC_NOTIFICATIONS_SERVER || 'https://claude-code-companion-backend-production.up.railway.app',
-      force: !isInteractive // Force setup in non-interactive environments
-    });
-    
-    console.log(chalk.green('\n✨ Auto-setup complete!\n'));
-    
-    console.log(chalk.bold('Next steps:'));
-    console.log('1. Start your backend server');
-    console.log(`2. Get pairing code from iPhone app`);
-    console.log(`3. Run: ${chalk.cyan('cccompanion pair <6-digit-code>')}`);
-    console.log(`4. Enjoy automatic notifications for risky operations!\n`);
+    if (!hookExists) {
+      // New installation
+      console.log(chalk.bold('Next steps:'));
+      console.log('1. Start your backend server');
+      console.log(`2. Get pairing code from iPhone app`);
+      console.log(`3. Run: ${chalk.cyan('cccompanion pair <6-digit-code>')}`);
+      console.log(`4. Enjoy automatic notifications for risky operations!\n`);
+    } else if (needsUpdate) {
+      // Hook was updated
+      console.log(chalk.bold('Your setup is ready!'));
+      console.log('• Hook file updated with latest improvements');
+      console.log('• Existing configuration preserved');
+      console.log(`• Check status: ${chalk.cyan('cccompanion status')}\n`);
+    } else {
+      // Hook already up to date
+      console.log(chalk.bold('Everything is ready!'));
+      console.log('• Hook file is current');
+      console.log('• Configuration preserved');
+      console.log(`• Check status: ${chalk.cyan('cccompanion status')}\n`);
+    }
     
   } catch (error) {
     // Don't fail the installation if setup fails
